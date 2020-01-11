@@ -29,6 +29,7 @@ import NavbarView from './Navbar.js';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './HomeScreen.js';
+import TableView from './TableView.js'
 
 const App: () => React$Node = () => {
   return (
@@ -37,6 +38,7 @@ const App: () => React$Node = () => {
             <NavbarView/>
             <FormView/>
             <Text>_______________________________________________________</Text>
+            <TableView/>
           </View>
     </>
   );

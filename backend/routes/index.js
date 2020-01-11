@@ -5,6 +5,7 @@ var MongoClient = Mongo.MongoClient;
 const app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+
 function insertData(res, req, doc){
   MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
     if(err) throw err;
@@ -18,6 +19,25 @@ function insertData(res, req, doc){
     });
   })
 }
+
+function getData(res, doc){
+  MongoClient.connect('mongodb://localhost:27017', (err, client)=>{
+    if(err) throw err;
+
+    var db = client.db('paperwork');
+    db.createCollection(doc, function(err, res) {
+      if (err) throw err;
+      console.log("Collection Created!");
+    });
+    db.collection(doc).find().toArray((err, result)=>{
+      if(err) throw err;
+      console.log(result);
+      res.send(result);
+    })
+  })
+}
+
+
 
 router.use('/', function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');
@@ -34,6 +54,12 @@ router.post('/', function(req, res, next) {
 
 router.post('/dataInsert', (req,res,next)=>{
   insertData(res, req, 'StandReceiver');
-})
+});
+
+router.get('/DataGet', (req, res, next)=>{
+  getData(res, 'StandReceiver');
+});
+
+
 
 module.exports = router;
